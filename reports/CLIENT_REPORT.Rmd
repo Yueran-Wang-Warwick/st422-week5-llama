@@ -204,6 +204,8 @@ tends to have higher typical spend than the other. Differences here can matter
 for interpretation, because higher-value customers may respond differently
 regardless of the intervention.
 
+This is a really simple boxplottttttttttttttttttttttttttttttttt!
+
 # Uncertainty and limitations
 
 1. **Group differences may reflect who was selected, not the intervention.** 
