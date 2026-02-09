@@ -118,7 +118,7 @@ tab1 <- make_table1(df)
 write_table1(tab1, "outputs/tables/table1.csv")
 knitr::kable(tab1, caption = "Table 1. Baseline summary by group.")
 ```
-This is a Table 1, wow!
+This is a Table 1, wow!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 **Interpretation.** Table 1 summarises how similar the Control and Treatment groups look on key observable characteristics. Large differences here can explain apparent outcome differences without requiring a true intervention effect.
 
@@ -163,6 +163,8 @@ p1
 
 **Interpretation.** This chart shows the percentage of customers who purchased within 30 days, for Treatment vs Control. The error bars reflect uncertainty from the sample size and help indicate whether the difference is likely to be due to random variation.
 
+I'm an alpaca!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 ## Visualisation 2: average order value by group
 
 ```{r fig2, results='asis'}
@@ -176,6 +178,8 @@ if (!is.null(p2)) {
 ```
 
 **Interpretation.** This chart summarises whether one group tends to have higher typical spend than the other. Differences here can matter for interpretation, because higher-value customers may respond differently regardless of the intervention.
+
+This plot is not bad!!!!!!!!!!!!!!!!!!!
 
 # Uncertainty and limitations
 
