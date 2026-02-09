@@ -11,7 +11,7 @@ params:
 ---
 
 
-
+### Hellooooooooooooooooooooooooooooooooooooooooooooooooooooooo
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
@@ -156,14 +156,14 @@ diff_pp <- 100*(p_t - p_c)
 
 if (length(diff_pp) == 1 && is.finite(diff_pp)) {
   if (diff_pp > 0) {
-    cat(sprintf("Evidence suggests the intervention had a positive effect, with the Treatment group showing a %.1f percentage point higher 30-day purchase rate than Control.", diff_pp))
+    cat(sprintf("In this extract, the Treatment group shows a higher 30-day purchase rate than Control (difference: %.1f percentage points).", diff_pp))
   } else if (diff_pp < 0) {
-    cat(sprintf("Evidence suggests the intervention had a negative effect, with the Treatment group showing a %.1f percentage point lower 30-day purchase rate than Control.", abs(diff_pp)))
+    cat(sprintf("In this extract, the Treatment group shows a lower 30-day purchase rate than Control (difference: %.1f percentage points).", abs(diff_pp)))
   } else {
-    cat("Evidence suggests the intervention had no effect, with the Treatment and Control groups showing the same 30-day purchase rate.")
+    cat("In this extract, the Treatment and Control groups have the same 30-day purchase rate.")
   }
 } else {
-  cat("The 30-day purchase rate comparison could not be computed due to missing data.")
+  cat("In this extract, the 30-day purchase rate comparison could not be computed due to missing data.")
 }
 ```
 
@@ -188,9 +188,9 @@ p1
 ```
 
 **Interpretation.** This chart shows the percentage of customers who purchased
-within 30 days. The gap between bars represents the estimated impact of the
-intervention. If the error bars do not overlap substantially, we can be more
-confident that this difference is a real effect rather than random chance.
+within 30 days, for Treatment vs Control. The error bars reflect uncertainty
+from the sample size and help indicate whether the difference is likely to be
+due to random variation.
 
 **{Yueran} Plain-language interpretation for client:** This figure directly supports the claim by showing whether the marketing intervention influenced customer purchasing decisions. A larger bar for Treatment means more customers bought something after receiving the intervention, which indicates the campaign may be working to drive conversions.
 
@@ -206,10 +206,10 @@ if (!is.null(p2)) {
 }
 ```
 
-**Interpretation.** This chart compares the typical spending amount per order.
-This helps checks if we are driving volume but losing value (e.g., if the
-intervention attracted only low-value purchases). Ideally, we want to see similar
-or higher order values in the Treatment group.
+**Interpretation.** This chart summarises whether one group
+tends to have higher typical spend than the other. Differences here can matter
+for interpretation, because higher-value customers may respond differently
+regardless of the intervention.
 
 **{Yueran} Plain-language interpretation for client:** This figure helps assess whether the intervention brings in quality customers or just bargain hunters. If Treatment customers spend similar or more per order than Control, it means the campaign is attracting valuable buyers, not just increasing low-value transactions.
 
