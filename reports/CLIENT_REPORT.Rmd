@@ -1,0 +1,232 @@
+---
+title: "Client report"
+output:
+  pdf_document: default
+  html_document:
+    toc: true
+    number_sections: true
+    df_print: paged
+params:
+  dataset: "auto"   # "auto" OR a path like "data/raw/week4_dataset.csv"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+
+# Find the project root robustly (anchor on this Rmd's location)
+find_project_root <- function() {
+  # Where is the current Rmd file?
+  rmd <- knitr::current_input(dir = TRUE)
+
+  # If knitr can't report it for some reason, fall back to this file’s folder assumption
+  if (is.null(rmd) || !nzchar(rmd)) {
+    # Assume we are in reports/ and root is one level up
+    return(normalizePath(".."))
+  }
+
+  # Start search from the folder containing the Rmd
+  start <- normalizePath(dirname(rmd))
+
+  # Prefer a definitive marker file in your repo:
+  markers <- c("st422-week4.Rproj", "DATA_DICTIONARY.md")
+  for (m in markers) {
+    # Walk upwards until we find the marker
+    here <- start
+    for (i in 1:10) {
+      if (file.exists(file.path(here, m))) return(here)
+      parent <- normalizePath(file.path(here, ".."))
+      if (parent == here) break
+      here <- parent
+    }
+  }
+
+  # Last-resort: assume the Rmd sits in <root>/reports
+  normalizePath(file.path(start, ".."))
+}
+
+ROOT <- find_project_root()
+
+# Make both knitr and base::source resolve relative paths from the project root
+knitr::opts_knit$set(root.dir = ROOT)
+setwd(ROOT)
+
+# Defensive check with a clear error message
+if (!file.exists("src/01_load_data.R")) {
+  stop("Cannot find src/01_load_data.R from project root: ", ROOT,
+       "\nCheck you opened the .Rproj and that the repo structure is intact.")
+}
+
+source("src/01_load_data.R")
+source("src/02_table1.R")
+source("src/03_figures.R")
+```
+
+
+# Introduction
+
+This brief report assesses whether the dataset supports a clear and defensible
+message that could be communicated to a general audience. The focus is on a
+small number of interpretable comparisons, with explicit limitations and a
+practical next step.
+
+# Client brief
+
+> We would like you to assess whether our dataset supports a clear and defensible
+  message that could be communicated to a general audience. In practical terms,
+  we want to know whether the data show a pattern that is relevant to our
+  decision-making, sufficiently consistent to justify a public-facing narrative,
+  and unlikely to be explained by obvious artefacts such as differences in the
+  make-up of the groups, missing or incomplete data, or changes in definitions
+  over time.
+>
+> Please provide an initial evidence-led summary that (i) states the most
+  defensible claim the data can support at this stage, (ii) sets out the key
+  evidence for that claim, (iii) explains the main uncertainties and limitations
+  and their likely impact, and (iv) recommends the most useful next step to
+  strengthen confidence in the story.
+
+# Data description
+
+```{r load}
+loaded <- load_client_data(params$dataset)
+df <- loaded$df
+meta <- loaded$meta
+```
+
+The data file used was: `r meta$source_path`.
+
+```{r time_series_note, results='asis'}
+if (isTRUE(meta$is_time_series)) {
+  cat(paste0("**Note:** this file contains repeated monthly observations. ",
+             "To keep the deliverable structure (one record per customer), ",
+             "this report analyses the most recent month in the file: **", meta$snapshot_month, "**. ",
+             "A month-by-month stability check is recommended in the final section.\n\n"))
+}
+```
+
+Each record in this report represents a single customer in the analysed extract.
+Customers are split into two groups (Control and Treatment) intended to
+represent whether the customer received a marketing intervention.
+
+# Data description
+
+This report uses the field definitions provided by the client (see 
+`DATA_DICTIONARY.md`). Where definitions are provisional, we flag the most 
+decision-relevant uncertainties in the limitations section.
+
+# Summary of data characteristics
+
+```{r checks, results='asis'}
+n_total <- nrow(df)
+n_groups <- df %>% count(group)
+missing_purchase <- mean(is.na(df$made_purchase_30d))
+
+cat(paste0("- Records analysed: ", n_total, "\n"))
+cat(paste0("- Group counts: ", paste0(n_groups$group, "=", n_groups$n, collapse = ", "), "\n"))
+cat(paste0("- Missing outcome (made_purchase_30d): ", scales::percent(missing_purchase, accuracy = 0.1), "\n"))
+```
+
+## Table 1: baseline characteristics by group
+
+```{r table1}
+tab1 <- make_table1(df)
+write_table1(tab1, "outputs/tables/table1.csv")
+knitr::kable(tab1, caption = "Table 1. Baseline summary by group.")
+```
+
+**Interpretation.** Table 1 summarises how similar the Control and Treatment
+groups look on key observable characteristics. Large differences here can
+explain apparent outcome differences without requiring a true intervention
+effect.
+
+# Claim
+
+```{r claim, results='asis'}
+rates <- df %>%
+  filter(!is.na(made_purchase_30d)) %>%
+  group_by(group) %>%
+  summarise(p = mean(made_purchase_30d == "Yes"), n = n(), .groups = "drop")
+
+p_t <- rates$p[rates$group == "Treatment"]
+p_c <- rates$p[rates$group == "Control"]
+diff_pp <- 100*(p_t - p_c)
+
+if (length(diff_pp) == 1 && is.finite(diff_pp)) {
+  if (diff_pp > 0) {
+    cat(sprintf("In this extract, the Treatment group shows a higher 30-day purchase rate than Control (difference: %.1f percentage points).", diff_pp))
+  } else if (diff_pp < 0) {
+    cat(sprintf("In this extract, the Treatment group shows a lower 30-day purchase rate than Control (difference: %.1f percentage points).", abs(diff_pp)))
+  } else {
+    cat("In this extract, the Treatment and Control groups have the same 30-day purchase rate.")
+  }
+} else {
+  cat("In this extract, the 30-day purchase rate comparison could not be computed due to missing data.")
+}
+```
+
+# Data and approach
+
+We compare outcomes between Treatment and Control using simple descriptive
+summaries. The goal is not to prove causality, but to identify whether there is
+a pattern that is large enough and sufficiently credible to justify a cautious
+public-facing narrative, and to identify the single most useful next step to
+strengthen confidence.
+
+# Evidence
+
+## Visualisation 1: purchase rate by group
+
+```{r fig1}
+p1 <- make_purchase_rate_plot(df)
+save_plot(p1, "outputs/figures/fig1_purchase_rate.png")
+p1
+```
+
+**Interpretation.** This chart shows the percentage of customers who purchased
+within 30 days, for Treatment vs Control. The error bars reflect uncertainty
+from the sample size and help indicate whether the difference is likely to be
+due to random variation.
+
+## Visualisation 2: average order value by group
+
+```{r fig2, results='asis'}
+p2 <- make_aov_plot(df)
+if (!is.null(p2)) {
+  save_plot(p2, "outputs/figures/fig2_aov_boxplot.png")
+  print(p2)
+} else {
+  cat("Average order value is not available in this dataset.")
+}
+```
+
+**Interpretation.** This chart summarises whether one group
+tends to have higher typical spend than the other. Differences here can matter
+for interpretation, because higher-value customers may respond differently
+regardless of the intervention.
+
+# Uncertainty and limitations
+
+1. **Group differences may reflect who was selected, not the intervention.** 
+   If Treatment and Control differ in key baseline characteristics (Table 1), 
+   then outcome differences may be explained by selection rather than the 
+   intervention itself. This would weaken the credibility of a public-facing 
+   claim of impact.
+
+2. **Outcome timing and definitions are provisional.** The definitions (for 
+   example how "30 days" is anchored, and whether purchases are counted when 
+   placed or fulfilled) could change the measured purchase rate. If the 
+   definition shifted, the story could change materially.
+
+3. **If the source file is time-series (Week 5), this report uses only the most recent month.** 
+   The claim may not hold consistently over time. If seasonality or a recording 
+   change is present, a single-month snapshot may be misleading.
+
+# Recommendation and next steps
+
+The most useful next step is to confirm the intervention definition and
+eligibility rules (including anchor dates), then repeat the comparison with one
+simple robustness check: stratify the purchase rate by **customer_type** (New vs
+Existing) to see whether the pattern holds within comparable customers. If this
+is a time-series dataset, extend the analysis to month-by-month purchase rates
+to check stability across time and rule out seasonal or definition-driven
+artefacts.
