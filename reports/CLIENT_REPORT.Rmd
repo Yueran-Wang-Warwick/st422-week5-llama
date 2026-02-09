@@ -16,9 +16,12 @@ params:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
 
+# {Yueran} VERIFIED: This setup chunk ensures reproducible knitting from project root
+# The code below automatically finds the project root using marker files
+
 # Find the project root robustly (anchor on this Rmd's location)
 find_project_root <- function() {
-  # Where is the current Rmd file?
+  
   rmd <- knitr::current_input(dir = TRUE)
 
   # If knitr can't report it for some reason, fall back to this file’s folder assumption
@@ -64,29 +67,15 @@ source("src/02_table1.R")
 source("src/03_figures.R")
 ```
 
-
 # Introduction
 
-This brief report assesses whether the dataset supports a clear and defensible
-message that could be communicated to a general audience. The focus is on a
-small number of interpretable comparisons, with explicit limitations and a
-practical next step.
+This brief report assesses whether the dataset supports a clear and defensible message that could be communicated to a general audience. The focus is on a small number of interpretable comparisons, with explicit limitations and a practical next step.
 
 # Client brief
 
-> We would like you to assess whether our dataset supports a clear and defensible
-  message that could be communicated to a general audience. In practical terms,
-  we want to know whether the data show a pattern that is relevant to our
-  decision-making, sufficiently consistent to justify a public-facing narrative,
-  and unlikely to be explained by obvious artefacts such as differences in the
-  make-up of the groups, missing or incomplete data, or changes in definitions
-  over time.
+> We would like you to assess whether our dataset supports a clear and defensible message that could be communicated to a general audience. In practical terms, we want to know whether the data show a pattern that is relevant to our decision-making, sufficiently consistent to justify a public-facing narrative, and unlikely to be explained by obvious artefacts such as differences in the make-up of the groups, missing or incomplete data, or changes in definitions over time.
 >
-> Please provide an initial evidence-led summary that (i) states the most
-  defensible claim the data can support at this stage, (ii) sets out the key
-  evidence for that claim, (iii) explains the main uncertainties and limitations
-  and their likely impact, and (iv) recommends the most useful next step to
-  strengthen confidence in the story.
+> Please provide an initial evidence-led summary that (i) states the most defensible claim the data can support at this stage, (ii) sets out the key evidence for that claim, (iii) explains the main uncertainties and limitations and their likely impact, and (iv) recommends the most useful next step to strengthen confidence in the story.
 
 # Data description
 
@@ -107,15 +96,11 @@ if (isTRUE(meta$is_time_series)) {
 }
 ```
 
-Each record in this report represents a single customer in the analysed extract.
-Customers are split into two groups (Control and Treatment) intended to
-represent whether the customer received a marketing intervention.
+Each record in this report represents a single customer in the analysed extract. Customers are split into two groups (Control and Treatment) intended to represent whether the customer received a marketing intervention.
 
 # Data description
 
-This report uses the field definitions provided by the client (see 
-`DATA_DICTIONARY.md`). Where definitions are provisional, we flag the most 
-decision-relevant uncertainties in the limitations section.
+This report uses the field definitions provided by the client (see `DATA_DICTIONARY.md`). Where definitions are provisional, we flag the most decision-relevant uncertainties in the limitations section.
 
 # Summary of data characteristics
 
@@ -136,11 +121,9 @@ tab1 <- make_table1(df)
 write_table1(tab1, "outputs/tables/table1.csv")
 knitr::kable(tab1, caption = "Table 1. Baseline summary by group.")
 ```
+This is a Table 1, wow!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-**Interpretation.** Table 1 summarises how similar the Control and Treatment
-groups look on key observable characteristics. Large differences here can
-explain apparent outcome differences without requiring a true intervention
-effect.
+**Interpretation.** Table 1 summarises how similar the Control and Treatment groups look on key observable characteristics. Large differences here can explain apparent outcome differences without requiring a true intervention effect.
 
 # Claim
 
@@ -171,11 +154,7 @@ if (length(diff_pp) == 1 && is.finite(diff_pp)) {
 
 # Data and approach
 
-We compare outcomes between Treatment and Control using simple descriptive
-summaries. The goal is not to prove causality, but to identify whether there is
-a pattern that is large enough and sufficiently credible to justify a cautious
-public-facing narrative, and to identify the single most useful next step to
-strengthen confidence.
+We compare outcomes between Treatment and Control using simple descriptive summaries. The goal is not to prove causality, but to identify whether there is a pattern that is large enough and sufficiently credible to justify a cautious public-facing narrative, and to identify the single most useful next step to strengthen confidence.
 
 # Evidence
 
@@ -215,27 +194,12 @@ regardless of the intervention.
 
 # Uncertainty and limitations
 
-1. **Group differences may reflect who was selected, not the intervention.** 
-   If Treatment and Control differ in key baseline characteristics (Table 1), 
-   then outcome differences may be explained by selection rather than the 
-   intervention itself. This would weaken the credibility of a public-facing 
-   claim of impact.
+1.  **Group differences may reflect who was selected, not the intervention.** If Treatment and Control differ in key baseline characteristics (Table 1), then outcome differences may be explained by selection rather than the intervention itself. This would weaken the credibility of a public-facing claim of impact.
 
-2. **Outcome timing and definitions are provisional.** The definitions (for 
-   example how "30 days" is anchored, and whether purchases are counted when 
-   placed or fulfilled) could change the measured purchase rate. If the 
-   definition shifted, the story could change materially.
+2.  **Outcome timing and definitions are provisional.** The definitions (for example how "30 days" is anchored, and whether purchases are counted when placed or fulfilled) could change the measured purchase rate. If the definition shifted, the story could change materially.
 
-3. **If the source file is time-series (Week 5), this report uses only the most recent month.** 
-   The claim may not hold consistently over time. If seasonality or a recording 
-   change is present, a single-month snapshot may be misleading.
+3.  **If the source file is time-series (Week 5), this report uses only the most recent month.** The claim may not hold consistently over time. If seasonality or a recording change is present, a single-month snapshot may be misleading.
 
 # Recommendation and next steps
 
-The most useful next step is to confirm the intervention definition and
-eligibility rules (including anchor dates), then repeat the comparison with one
-simple robustness check: stratify the purchase rate by **customer_type** (New vs
-Existing) to see whether the pattern holds within comparable customers. If this
-is a time-series dataset, extend the analysis to month-by-month purchase rates
-to check stability across time and rule out seasonal or definition-driven
-artefacts.
+The most useful next step is to confirm the intervention definition and eligibility rules (including anchor dates), then repeat the comparison with one simple robustness check: stratify the purchase rate by **customer_type** (New vs Existing) to see whether the pattern holds within comparable customers. If this is a time-series dataset, extend the analysis to month-by-month purchase rates to check stability across time and rule out seasonal or definition-driven artefacts.
