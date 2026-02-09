@@ -213,6 +213,8 @@ or higher order values in the Treatment group.
 
 **{Yueran} Plain-language interpretation for client:** This figure helps assess whether the intervention brings in quality customers or just bargain hunters. If Treatment customers spend similar or more per order than Control, it means the campaign is attracting valuable buyers, not just increasing low-value transactions.
 
+This is a really simple boxplottttttttttttttttttttttttttttttttt!
+
 # Uncertainty and limitations
 
 1. **Group differences may reflect who was selected, not the intervention.** 
