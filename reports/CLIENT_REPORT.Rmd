@@ -10,14 +10,6 @@ params:
   dataset: "auto"   # "auto" OR a path like "data/raw/week4_dataset.csv"
 ---
 
-```{r}
-# Load packages
-library(dplyr)
-library(ggplot2)
-library(readr)
-library(tidyr)
-```
-
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
 
