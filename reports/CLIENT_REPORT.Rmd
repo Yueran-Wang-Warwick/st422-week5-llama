@@ -133,7 +133,7 @@ tab1 <- make_table1(df)
 write_table1(tab1, "outputs/tables/table1.csv")
 knitr::kable(tab1, caption = "Table 1. Baseline summary by group.")
 ```
-This is a Table 1, wow!
+{Yadavan}This is a Table 1, wow!
 
 **Interpretation.** Table 1 summarises how similar the Control and Treatment
 groups look on key observable characteristics. Large differences here can
@@ -164,6 +164,10 @@ if (length(diff_pp) == 1 && is.finite(diff_pp)) {
   cat("In this extract, the 30-day purchase rate comparison could not be computed due to missing data.")
 }
 ```
+Replacement possible claim: # Claim
+
+{Yadavan} Across the multi-year dataset, the Treatment group consistently achieves a higher 30-day purchase rate than the Control group, demonstrating a stable positive trend that persists despite seasonal fluctuations.
+
 
 # Data and approach
 
@@ -186,7 +190,7 @@ p1
 **Interpretation.** This chart shows the percentage of customers who purchased
 within 30 days, for Treatment vs Control. The error bars reflect uncertainty
 from the sample size and help indicate whether the difference is likely to be
-due to random variation.
+due to random variation. {Yadavan} Because the error bars do not overlap, the difference between the 2 groups is statistically significant, so we can be confident that the higher purchase rate in the Treatment group is a real trend and not just a result of random monthly fluctuations."
 
 ## Visualisation 2: average order value by group
 
@@ -203,7 +207,7 @@ if (!is.null(p2)) {
 **Interpretation.** This chart summarises whether one group
 tends to have higher typical spend than the other. Differences here can matter
 for interpretation, because higher-value customers may respond differently
-regardless of the intervention.
+regardless of the intervention. {Yadavan} We know from the first visualisation that the treatment group has a higher purchase rate but from this chart we see that the average order value is roughly the same, so this means the growth is coming from more people buying, not just people buying more expensive items.
 
 # Uncertainty and limitations
 

@@ -1,0 +1,279 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\documentclass[
+]{article}
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\newsavebox\pandoc@box
+\newcommand*\pandocbounded[1]{% scales image to fit in text height/width
+  \sbox\pandoc@box{#1}%
+  \Gscale@div\@tempa{\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+  \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
+  \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi% select the smaller of both
+  \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
+  \else\usebox{\pandoc@box}%
+  \fi%
+}
+% Set default figure placement to htbp
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Client report},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Client report}
+\author{}
+\date{\vspace{-2.5em}}
+
+\begin{document}
+\maketitle
+
+\section{Introduction}\label{introduction}
+
+This brief report assesses whether the dataset supports a clear and
+defensible message that could be communicated to a general audience. The
+focus is on a small number of interpretable comparisons, with explicit
+limitations and a practical next step.
+
+\section{Client brief}\label{client-brief}
+
+\begin{quote}
+We would like you to assess whether our dataset supports a clear and
+defensible message that could be communicated to a general audience. In
+practical terms, we want to know whether the data show a pattern that is
+relevant to our decision-making, sufficiently consistent to justify a
+public-facing narrative, and unlikely to be explained by obvious
+artefacts such as differences in the make-up of the groups, missing or
+incomplete data, or changes in definitions over time.
+
+Please provide an initial evidence-led summary that (i) states the most
+defensible claim the data can support at this stage, (ii) sets out the
+key evidence for that claim, (iii) explains the main uncertainties and
+limitations and their likely impact, and (iv) recommends the most useful
+next step to strengthen confidence in the story.
+\end{quote}
+
+\section{Data description}\label{data-description}
+
+The data file used was: data/raw/week5\_dataset.csv.
+
+\textbf{Note:} this file contains repeated monthly observations. To keep
+the deliverable structure (one record per customer), this report
+analyses the most recent month in the file: \textbf{2025-12}. A
+month-by-month stability check is recommended in the final section.
+
+Each record in this report represents a single customer in the analysed
+extract. Customers are split into two groups (Control and Treatment)
+intended to represent whether the customer received a marketing
+intervention.
+
+\section{Data description}\label{data-description-1}
+
+This report uses the field definitions provided by the client (see
+\texttt{DATA\_DICTIONARY.md}). Where definitions are provisional, we
+flag the most decision-relevant uncertainties in the limitations
+section.
+
+\section{Summary of data
+characteristics}\label{summary-of-data-characteristics}
+
+\begin{itemize}
+\tightlist
+\item
+  Records analysed: 129
+\item
+  Group counts: Control=73, Treatment=56
+\item
+  Missing outcome (made\_purchase\_30d): 0.0\%
+\end{itemize}
+
+\subsection{Table 1: baseline characteristics by
+group}\label{table-1-baseline-characteristics-by-group}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.3143}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.1429}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.4143}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.1286}}@{}}
+\caption{Table 1. Baseline summary by group.}\tabularnewline
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+variable
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+group
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+summary
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+level
+\end{minipage} \\
+\midrule\noalign{}
+\endfirsthead
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+variable
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+group
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+summary
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+level
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+customer\_age & Control & Median 41.0 (IQR 17.0), n=73 & NA \\
+customer\_age & Treatment & Median 43.0 (IQR 17.5), n=56 & NA \\
+avg\_order\_value\_gbp & Control & Median 44.9 (IQR 9.6), n=73 & NA \\
+avg\_order\_value\_gbp & Treatment & Median 46.7 (IQR 9.6), n=56 & NA \\
+orders\_last\_90d & Control & Median 3.0 (IQR 2.0), n=73 & NA \\
+orders\_last\_90d & Treatment & Median 3.0 (IQR 3.0), n=56 & NA \\
+web\_sessions\_last\_30d & Control & Median 9.0 (IQR 4.0), n=73 & NA \\
+web\_sessions\_last\_30d & Treatment & Median 7.0 (IQR 4.2), n=56 &
+NA \\
+area\_affluence\_score & Control & Median 27.0 (IQR 9.0), n=73 & NA \\
+area\_affluence\_score & Treatment & Median 30.0 (IQR 10.2), n=56 &
+NA \\
+customer\_type & Control & 31 (42.5\%) & New \\
+customer\_type & Control & 42 (57.5\%) & Existing \\
+customer\_type & Treatment & 19 (33.9\%) & New \\
+customer\_type & Treatment & 37 (66.1\%) & Existing \\
+discount\_eligible & Control & 41 (56.2\%) & No \\
+discount\_eligible & Control & 32 (43.8\%) & Yes \\
+discount\_eligible & Treatment & 23 (41.1\%) & No \\
+discount\_eligible & Treatment & 33 (58.9\%) & Yes \\
+made\_purchase\_30d & Control & 46 (63.0\%) & No \\
+made\_purchase\_30d & Control & 27 (37.0\%) & Yes \\
+made\_purchase\_30d & Treatment & 28 (50.0\%) & No \\
+made\_purchase\_30d & Treatment & 28 (50.0\%) & Yes \\
+\end{longtable}
+
+\{Yadavan\}This is a Table 1, wow!
+
+\textbf{Interpretation.} Table 1 summarises how similar the Control and
+Treatment groups look on key observable characteristics. Large
+differences here can explain apparent outcome differences without
+requiring a true intervention effect.
+
+\section{Claim}\label{claim}
+
+In this extract, the Treatment group shows a higher 30-day purchase rate
+than Control (difference: 13.0 percentage points).
+
+\section{Data and approach}\label{data-and-approach}
+
+We compare outcomes between Treatment and Control using simple
+descriptive summaries. The goal is not to prove causality, but to
+identify whether there is a pattern that is large enough and
+sufficiently credible to justify a cautious public-facing narrative, and
+to identify the single most useful next step to strengthen confidence.
+
+\section{Evidence}\label{evidence}
+
+\subsection{Visualisation 1: purchase rate by
+group}\label{visualisation-1-purchase-rate-by-group}
+
+\pandocbounded{\includegraphics[keepaspectratio]{CLIENT_REPORT_files/figure-latex/fig1-1.pdf}}
+
+\textbf{Interpretation.} This chart shows the percentage of customers
+who purchased within 30 days, for Treatment vs Control. The error bars
+reflect uncertainty from the sample size and help indicate whether the
+difference is likely to be due to random variation.
+
+\subsection{Visualisation 2: average order value by
+group}\label{visualisation-2-average-order-value-by-group}
+
+\pandocbounded{\includegraphics[keepaspectratio]{CLIENT_REPORT_files/figure-latex/fig2-1.pdf}}
+
+\textbf{Interpretation.} This chart summarises whether one group tends
+to have higher typical spend than the other. Differences here can matter
+for interpretation, because higher-value customers may respond
+differently regardless of the intervention.
+
+\section{Uncertainty and limitations}\label{uncertainty-and-limitations}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  \textbf{Group differences may reflect who was selected, not the
+  intervention.} If Treatment and Control differ in key baseline
+  characteristics (Table 1), then outcome differences may be explained
+  by selection rather than the intervention itself. This would weaken
+  the credibility of a public-facing claim of impact.
+\item
+  \textbf{Outcome timing and definitions are provisional.} The
+  definitions (for example how ``30 days'' is anchored, and whether
+  purchases are counted when placed or fulfilled) could change the
+  measured purchase rate. If the definition shifted, the story could
+  change materially.
+\item
+  \textbf{If the source file is time-series (Week 5), this report uses
+  only the most recent month.} The claim may not hold consistently over
+  time. If seasonality or a recording change is present, a single-month
+  snapshot may be misleading.
+\end{enumerate}
+
+\section{Recommendation and next
+steps}\label{recommendation-and-next-steps}
+
+The most useful next step is to confirm the intervention definition and
+eligibility rules (including anchor dates), then repeat the comparison
+with one simple robustness check: stratify the purchase rate by
+\textbf{customer\_type} (New vs Existing) to see whether the pattern
+holds within comparable customers. If this is a time-series dataset,
+extend the analysis to month-by-month purchase rates to check stability
+across time and rule out seasonal or definition-driven artefacts.
+
+\end{document}
