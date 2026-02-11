@@ -116,8 +116,6 @@ write_table1(tab1, "outputs/tables/table1.csv")
 knitr::kable(tab1, caption = "Table 1. Baseline summary by group.")
 ```
 
-This is a Table 1, wow!
-
 **Interpretation.** Table 1 summarises how similar the Control and Treatment groups look on key observable characteristics. Large differences here can explain apparent outcome differences without requiring a true intervention effect.
 
 # Claim
