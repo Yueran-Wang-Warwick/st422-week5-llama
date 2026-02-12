@@ -1,4 +1,4 @@
-# st422-week4-yourname
+# st422-week4-team-llama
 
 This repository extends the client brief to the new data set. It is designed to run on either: - Week 4 snapshot data (one row per customer), or - Week 5 time-series data (multiple months), automatically.
 
