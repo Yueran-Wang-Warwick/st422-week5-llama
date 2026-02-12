@@ -13,9 +13,12 @@ params:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
 
+# {Yueran} VERIFIED: This setup chunk ensures reproducible knitting from project root
+# The code below automatically finds the project root using marker files
+
 # Find the project root robustly (anchor on this Rmd's location)
 find_project_root <- function() {
-  # Where is the current Rmd file?
+  
   rmd <- knitr::current_input(dir = TRUE)
 
   # If knitr can't report it for some reason, fall back to this file’s folder assumption
@@ -143,6 +146,8 @@ if (length(diff_pp) == 1 && is.finite(diff_pp)) {
 }
 ```
 
+**{Yueran} Refined one-sentence claim:** The Treatment group demonstrates a meaningful difference in 30-day purchase behavior compared to Control, though this pattern requires time-series validation to confirm stability across multiple periods and rule out seasonal or recording artifacts.
+
 # Data and approach
 
 We compare outcomes between Treatment and Control using simple descriptive summaries. The goal is not to prove causality, but to identify whether there is a pattern that is large enough and sufficiently credible to justify a cautious public-facing narrative, and to identify the single most useful next step to strengthen confidence.
@@ -157,7 +162,12 @@ save_plot(p1, "outputs/figures/fig1_purchase_rate.png")
 p1
 ```
 
-**Interpretation.** This chart shows the percentage of customers who purchased within 30 days, for Treatment vs Control. The error bars reflect uncertainty from the sample size and help indicate whether the difference is likely to be due to random variation.
+**Interpretation.** This chart shows the percentage of customers who purchased
+within 30 days, for Treatment vs Control. The error bars reflect uncertainty
+from the sample size and help indicate whether the difference is likely to be
+due to random variation.
+
+**{Yueran} Plain-language interpretation for client:** This figure directly supports the claim by showing whether the marketing intervention influenced customer purchasing decisions. A larger bar for Treatment means more customers bought something after receiving the intervention, which indicates the campaign may be working to drive conversions.
 
 ## Visualisation 2: average order value by group
 
@@ -171,7 +181,12 @@ if (!is.null(p2)) {
 }
 ```
 
-**Interpretation.** This chart summarises whether one group tends to have higher typical spend than the other. Differences here can matter for interpretation, because higher-value customers may respond differently regardless of the intervention.
+**Interpretation.** This chart summarises whether one group
+tends to have higher typical spend than the other. Differences here can matter
+for interpretation, because higher-value customers may respond differently
+regardless of the intervention.
+
+**{Yueran} Plain-language interpretation for client:** This figure helps assess whether the intervention brings in quality customers or just bargain hunters. If Treatment customers spend similar or more per order than Control, it means the campaign is attracting valuable buyers, not just increasing low-value transactions.
 
 # Uncertainty and limitations
 
